@@ -370,6 +370,7 @@ mavlink.prototype.parseChar = function(ch) {
 				this.emit(this.getMessageName(this.buffer[5]), message, this.decodeMessage(message));
 			}
 		} else {
+			console.warn("Message: " + this.messagesByID[this.buffer[5]].$.name + " Checksum failure");
 			//If checksum fails, fire an event with some debugging information. Message ID, Message Checksum (XML), Calculated Checksum, Received Checksum
 			this.emit("checksumFail", this.buffer[5], this.messageChecksums[this.buffer[5]], this.calculateChecksum(crc_buf), this.buffer.readUInt16LE(this.messageLength+6));
 		}
@@ -440,11 +441,12 @@ mavlink.prototype.bufferField = function(buf, offset, field, value) {
 				
 			//TODO: Add support for the 64bit types
 			case 'int64_t':
-				console.warn("No 64-bit Integer support yet!");
+				// Commented out to keep ISA server output clean.
+				// console.warn("No 64-bit Integer support yet!");
 				//buf.writeFloatLE(value[i],offset);
 				break;
 			case 'uint64_t':
-				console.warn("No 64-bit Integer support yet!");
+				// console.warn("No 64-bit Integer support yet!");
 				//buf.writeFloatLE(value[i],offset);
 				break;
 		}
@@ -513,7 +515,7 @@ mavlink.prototype.decodeMessage = function(message) {
 					
 				//TODO: Add support for the 64bit types
 				case 'int64_t':
-					console.warn("No 64-bit Integer support yet!");
+					// console.warn("No 64-bit Integer support yet!");
 					//buf.writeFloatLE(value[i],offset);
 					break;
 				case 'uint64_t':
